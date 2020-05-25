@@ -2,7 +2,7 @@ import logging
 
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from config import MONGODB_URL, MONGODB_MIN_CONNECTIONS, MONGODB_MAX_CONNECTIONS
+from config import MONGODB_URL, MONGODB_MIN_CONNECTIONS, MONGODB_MAX_CONNECTIONS, DEV_INSERT_DATA
 from .models import init_instance, deinit_instance
 
 
@@ -33,8 +33,9 @@ async def connect_to_mongo():
 
     init_instance(await get_database())
 
-    from apps.insert_data import insert_data
-    await insert_data()
+    if DEV_INSERT_DATA:
+        from apps.dev.insert_data import insert_data
+        await insert_data()
 
 
 async def disconnect_from_mongo():

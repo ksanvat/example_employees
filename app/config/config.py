@@ -10,6 +10,13 @@ def getenv_int(key, default):
         return default
 
 
+def getenv_bool(key, default):
+    try:
+        return bool(os.getenv(key, default))
+    except:
+        return default
+
+
 def getenv_list_of_str(key, default):
     try:
         return os.getenv(key, None).split(',')
@@ -33,5 +40,6 @@ MONGODB_URL = databases.DatabaseURL(
 MONGODB_MIN_CONNECTIONS = getenv_int('MONGODB_MIN_CONNECTIONS', 1)
 MONGODB_MAX_CONNECTIONS = getenv_int('MONGODB_MAX_CONNECTIONS', 1)
 
-
 API_PREFIX = '/api'
+
+DEV_INSERT_DATA = getenv_bool('DEV_INSERT_DATA', False)

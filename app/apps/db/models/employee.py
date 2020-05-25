@@ -2,7 +2,7 @@ from umongo import Document, fields
 
 from .base import instance
 from .company import CompanyModel
-from .job_title import JobTitleModel
+from .job import JobModel
 from .gender import GenderModel
 
 
@@ -13,7 +13,7 @@ class EmployeeModel(Document):
     age = fields.IntegerField(required=True)
     company = fields.ReferenceField(document=CompanyModel, required=True)
     join_date = fields.DateTimeField(required=True)
-    job_title = fields.ReferenceField(document=JobTitleModel, required=True)
+    job = fields.ReferenceField(document=JobModel, required=True)
     gender = fields.ReferenceField(document=GenderModel, required=True)
     salary = fields.IntegerField(required=True)
 
