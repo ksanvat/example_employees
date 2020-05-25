@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: ./app
+      dockerfile: ./deploy/dev/Dockerfile
+    volumes:
+      - ./app/:/app/
+    ports:
+      - 8000:8000
+    env_file:
+      - ./app/config/dev/.env
+    command: "hypercorn main:app -b localhost:8000 --reload"
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./mongodb
+      dockerfile: ./deploy/dev/Dockerfile
+    volumes:
+      - mongo_data_dev:/data/db
+    env_file:
+      - mongodb/config/dev/.env
+
+volumes:
+  mongo_data_dev:
