@@ -4,6 +4,5 @@ from .config import (
     MONGODB_URL,
     MONGODB_MIN_CONNECTIONS,
     MONGODB_MAX_CONNECTIONS,
-    API_PREFIX,
     DEV_INSERT_DATA
 )

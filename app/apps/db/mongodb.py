@@ -31,7 +31,7 @@ async def connect_to_mongo():
     )
     logging.info('Connecting to database success')
 
-    init_instance(await get_database())
+    await init_instance(await get_database())
 
     if DEV_INSERT_DATA:
         from apps.dev.insert_data import insert_data
@@ -43,4 +43,4 @@ async def disconnect_from_mongo():
     __db.client.close()
     logging.info('Disconnecting from database success')
 
-    deinit_instance()
+    await deinit_instance()

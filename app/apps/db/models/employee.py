@@ -6,6 +6,7 @@ from .job import JobModel
 from .gender import GenderModel
 
 
+# noinspection PyAbstractClass
 @instance.register
 class EmployeeModel(Document):
     name = fields.StringField(required=True)
