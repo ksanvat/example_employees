@@ -1,19 +1,31 @@
 import logging
 
 from motor.motor_asyncio import AsyncIOMotorClient
+from umongo import MotorAsyncIOInstance
 
-from config import MONGODB_URL, MONGODB_MIN_CONNECTIONS, MONGODB_MAX_CONNECTIONS, DEV_INSERT_DATA
-from .models import init_instance, deinit_instance
+from config import MONGODB_URL, MONGODB_MIN_CONNECTIONS, MONGODB_MAX_CONNECTIONS
 
 
 class DataBase:
-    client: AsyncIOMotorClient = None
+    client = None
+
+
+class Instance(MotorAsyncIOInstance):
+    async def init(self, db):
+        super().init(db=db)
+
+        for doc in self._doc_lookup.values():
+            await doc.ensure_indexes()
+
+    async def deinit(self):
+        self._db = None
 
 
 __db = DataBase()
+instance = Instance()
 
 
-async def get_database_client() -> AsyncIOMotorClient:
+async def get_database_client():
     return __db.client
 
 
@@ -31,11 +43,7 @@ async def connect_to_mongo():
     )
     logging.info('Connecting to database success')
 
-    await init_instance(await get_database())
-
-    if DEV_INSERT_DATA:
-        from apps.dev.insert_data import insert_data
-        await insert_data()
+    await instance.init(await get_database())
 
 
 async def disconnect_from_mongo():
@@ -43,4 +51,4 @@ async def disconnect_from_mongo():
     __db.client.close()
     logging.info('Disconnecting from database success')
 
-    await deinit_instance()
+    await instance.deinit()

@@ -6,9 +6,9 @@ while ! nc -z $MONGODB_HOST $MONGODB_PORT; do
 done
 echo "mongodb started"
 
-if [ "$DB_LOADDATA_SAMPLE" = "1" ]
+if [ "$DEV_INSERT_DATA" = "1" ]
 then
-    ./manage.py loaddata sample.json
+    python dev_insert_data.py
 fi
 
 exec "$@"
