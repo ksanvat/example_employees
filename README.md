@@ -10,8 +10,8 @@ docker-compose down
 
 - Browser api url: [http://localhost:8000/api/v1/employees/](http://localhost:8000/api/v1/employees/)
 - Available query filters
-    - [offset](http://localhost:8000/api/v1/employees/?offset=10): int
-    - [limit](http://localhost:8000/api/v1/employees/?limit=30): int
+    - [offset](http://localhost:8000/api/v1/employees/?offset=10): int (default=0)
+    - [limit](http://localhost:8000/api/v1/employees/?limit=30): int (default=20)
     - [text](http://localhost:8000/api/v1/employees/?text=chester): str - поиск по 'name', 'company' and 'job_title'; ignorecase
     - [name](http://localhost:8000/api/v1/employees/?name=odge): str (поиск по частичному совпадению; ignorecase)
     - [age](http://localhost:8000/api/v1/employees/?age=21) or [age_lt](http://localhost:8000/api/v1/employees/?age_lt=22), [age_gt](http://localhost:8000/api/v1/employees/?age_gt=22): int
