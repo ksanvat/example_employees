@@ -20,7 +20,7 @@ class EmployeeModel(Document):
 
     class Meta:
         collection_name = 'employee'
-        indexes = (('$name', '$company', '$job_title'),)
+        indexes = ('name_lower', 'age', 'company_lower', 'job_title_lower', 'gender', ('$name', '$company', '$job_title'))
 
     @classmethod
     def serialize(cls, dct):
