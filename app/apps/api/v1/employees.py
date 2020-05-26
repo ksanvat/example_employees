@@ -18,6 +18,7 @@ async def employees(
     company: str = Query(None),
     job_title: str = Query(None),
     gender: str = Query(None),
+    sort_by: str = Query(None),
     db=Depends(get_database)
 ):
     filter_params = EmployeesFilterParams(
@@ -30,7 +31,8 @@ async def employees(
         age_lt=age_lt,
         company=company,
         job_title=job_title,
-        gender=gender
+        gender=gender,
+        sort_by=sort_by
     )
     data = await get_employees_with_filters(db, filter_params)
     return data

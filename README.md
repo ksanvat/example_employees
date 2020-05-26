@@ -18,7 +18,7 @@ docker-compose down
     - [company](http://localhost:8000/api/v1/employees/?company=google): str - поиск по полному совпадению; ignorecase
     - [job_title](http://localhost:8000/api/v1/employees/?job_title=director): str - поиск по полному совпадению; ignorecase
     - [gender](http://localhost:8000/api/v1/employees/?gender=male): str - поиск по полному совпадению; ignorecase
-
+    - [sort_by](http://localhost:8000/api/v1/employees/?sort_by=-join_date): str (default=join_date) - сортировка по возрастанию/убыванию полей 'name', 'age', 'company', 'join_date', 'job_title', 'gender'. Для сортировки по убыванию используется префикс '-'
 
 TODO:
 - отдельные сериализаторы

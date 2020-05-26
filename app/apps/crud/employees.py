@@ -1,5 +1,7 @@
 import re
 
+import pymongo
+
 from apps.db.models import EmployeeModel
 
 
@@ -15,7 +17,8 @@ class EmployeesFilterParams:
         age_lt,
         company,
         job_title,
-        gender
+        gender,
+        sort_by
     ):
         self.offset = offset
         self.limit = limit
@@ -27,6 +30,7 @@ class EmployeesFilterParams:
         self.company = company
         self.job_title = job_title
         self.gender = gender
+        self.sort_by = sort_by
 
 
 async def get_employees_with_filters(db, filter_params):
@@ -56,13 +60,25 @@ async def get_employees_with_filters(db, filter_params):
     if filter_params.gender is not None:
         params['gender'] = filter_params.gender.lower()
 
+    if filter_params.sort_by is not None:
+        if not filter_params.sort_by.startswith('-'):
+            order = pymongo.ASCENDING
+        else:
+            order = pymongo.DESCENDING
+            filter_params.sort_by = filter_params.sort_by[1:]
+
+        if filter_params.sort_by in {'name', 'age', 'company', 'join_date', 'job_title', 'gender'}:
+            sort_by = (filter_params.sort_by, order)
+        else:
+            sort_by = ('join_date', pymongo.ASCENDING)
+    else:
+        sort_by = ('join_date', pymongo.ASCENDING)
+
     cursor = db.employee.find(
         params,
         skip=filter_params.offset,
         limit=filter_params.limit
-    ).sort([
-        ('date_join', -1)
-    ])
+    ).sort([sort_by])
 
     data = []
     async for row in cursor:
