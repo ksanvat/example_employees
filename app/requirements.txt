@@ -1,4 +1,4 @@
-fastapi==0.55.1
+fastapi==0.65.2
 databases==0.3.2
 motor==2.1.0
 umongo==2.2.0
